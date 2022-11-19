@@ -13,9 +13,23 @@ let argRequests = args.slice(2);
 let input = argRequests[0];
 let file = argRequests[1];
 
+const isValidUrl = urlString => {
+  try { 
+    return Boolean(new URL(urlString)); 
+  }
+  catch(e){ 
+    return false; 
+  }
+}
+
 // request the file from the server
 
  request(input, (error, response, body) => {
+
+  if (isValidUrl(input) === false) {
+    console.log("Invalid URL, please try again");
+    fs.close()
+  }
 
   // if file exists
   fs.access(file, fs.F_OK, (err) => {

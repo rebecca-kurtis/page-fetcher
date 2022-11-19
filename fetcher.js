@@ -15,10 +15,9 @@ let file = argRequests[1];
 
 const isValidUrl = urlString => {
   try {
-    const newURL = new URL(urlString)
+    const newURL = new URL(urlString);
     return true;
-  }
-  catch (e) {
+  } catch (e) {
     return false;
   }
 };
@@ -30,16 +29,15 @@ request(input, (error, response, body) => {
 
   if (isValidUrl(input) === false) {
     console.log("Invalid URL, please try again");
-    fs.close()
+    fs.close();
     return;
   }
 
   // if file exists
   fs.access(file, fs.F_OK, (err) => {
     if (err) {
-      console.error('File path is invalid', err)
-      // return
-      fs.close()
+      console.error('File path is invalid', err);
+      fs.close();
       return;
     }
 
@@ -51,17 +49,16 @@ request(input, (error, response, body) => {
             console.error(err);
           }
           // file written successfully
-          console.log(`Downloaded and saved ${body.length} bytes to ${file}`)
+          console.log(`Downloaded and saved ${body.length} bytes to ${file}`);
           rl.close();
-          return
-
+          return;
         });
       }
       if (answer === 'n') {
         rl.close();
-        return
+        return;
       }
-    })
+    });
 
   });
 });

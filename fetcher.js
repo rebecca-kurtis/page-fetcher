@@ -14,21 +14,24 @@ let input = argRequests[0];
 let file = argRequests[1];
 
 const isValidUrl = urlString => {
-  try { 
-    return Boolean(new URL(urlString)); 
+  try {
+    const newURL = new URL(urlString)
+    return true;
   }
-  catch(e){ 
-    return false; 
+  catch (e) {
+    return false;
   }
-}
+};
 
 // request the file from the server
 
- request(input, (error, response, body) => {
+request(input, (error, response, body) => {
+
 
   if (isValidUrl(input) === false) {
     console.log("Invalid URL, please try again");
     fs.close()
+    return;
   }
 
   // if file exists
@@ -37,8 +40,9 @@ const isValidUrl = urlString => {
       console.error('File path is invalid', err)
       // return
       fs.close()
+      return;
     }
-  
+
     //file exists
     rl.question('File exists already, press Y to overwrite it and N to exit ', (answer) => {
       if (answer === 'y') {
@@ -49,20 +53,15 @@ const isValidUrl = urlString => {
           // file written successfully
           console.log(`Downloaded and saved ${body.length} bytes to ${file}`)
           rl.close();
+          return
 
         });
       }
       if (answer === 'n') {
-      rl.close();
+        rl.close();
+        return
       }
-    // console.log('file exists')
-  })
+    })
 
-  // fs.writeFile(file, body, err => {
-  //   if (err) {
-  //     console.error(err);
-  //   }
-  //   // file written successfully
-  //   console.log(`Downloaded and saved ${body.length} bytes to ${file}`)
   });
 });

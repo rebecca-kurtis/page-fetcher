@@ -20,8 +20,9 @@ let file = argRequests[1];
   // if file exists
   fs.access(file, fs.F_OK, (err) => {
     if (err) {
-      console.error(err)
-      return
+      console.error('File path is invalid', err)
+      // return
+      fs.close()
     }
   
     //file exists
